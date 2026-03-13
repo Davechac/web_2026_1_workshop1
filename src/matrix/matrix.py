@@ -1,272 +1,79 @@
 class Matrix:
-    """
-    Clase con métodos para operaciones sobre matrices.
-    Incluye operaciones aritméticas, propiedades y transformaciones matriciales.
-    """
-
     def suma_matrices(self, A, B):
-        """
-        Suma dos matrices elemento a elemento.
-
-        Args:
-            A (list): Primera matriz (lista de listas)
-            B (list): Segunda matriz (lista de listas), debe tener las mismas dimensiones que A
-
-        Returns:
-            list: Matriz resultante de la suma
-
-        Raises:
-            ValueError: Si las matrices tienen dimensiones incompatibles
-
-        Ejemplo:
-            suma_matrices([[1, 2], [3, 4]], [[5, 6], [7, 8]]) -> [[6, 8], [10, 12]]
-        """
-        pass
+        if len(A) != len(B) or (A and len(A[0]) != len(B[0])):
+            raise ValueError("Dimensiones incompatibles")
+        return [[A[i][j] + B[i][j] for j in range(len(A[0]))] for i in range(len(A))]
 
     def resta_matrices(self, A, B):
-        """
-        Resta dos matrices elemento a elemento (A - B).
-
-        Args:
-            A (list): Primera matriz (lista de listas)
-            B (list): Segunda matriz (lista de listas), debe tener las mismas dimensiones que A
-
-        Returns:
-            list: Matriz resultante de la resta
-
-        Raises:
-            ValueError: Si las matrices tienen dimensiones incompatibles
-
-        Ejemplo:
-            resta_matrices([[5, 6], [7, 8]], [[1, 2], [3, 4]]) -> [[4, 4], [4, 4]]
-        """
-        pass
+        if len(A) != len(B) or (A and len(A[0]) != len(B[0])):
+            raise ValueError("Dimensiones incompatibles")
+        return [[A[i][j] - B[i][j] for j in range(len(A[0]))] for i in range(len(A))]
 
     def multiplicar_matrices(self, A, B):
-        """
-        Multiplica dos matrices usando la multiplicación matricial estándar.
-        El número de columnas de A debe ser igual al número de filas de B.
+        if not A or not B or len(A[0]) != len(B):
+            raise ValueError("Dimensiones incompatibles")
+        rows, cols, inner = len(A), len(B[0]), len(B)
+        return [[sum(A[i][k] * B[k][j] for k in range(inner)) for j in range(cols)] for i in range(rows)]
 
-        Args:
-            A (list): Primera matriz de dimensiones m x n
-            B (list): Segunda matriz de dimensiones n x p
+    def multiplicar_escalar(self, M, escalar):
+        return [[M[i][j] * escalar for j in range(len(M[0]))] for i in range(len(M))]
 
-        Returns:
-            list: Matriz resultante de dimensiones m x p
+    def transpuesta(self, M):
+        if not M:
+            return []
+        return [[M[i][j] for i in range(len(M))] for j in range(len(M[0]))]
 
-        Raises:
-            ValueError: Si las dimensiones son incompatibles para multiplicación
+    def es_cuadrada(self, M):
+        if not M:
+            return False
+        return len(M) == len(M[0])
 
-        Ejemplo:
-            multiplicar_matrices([[1, 2], [3, 4]], [[5, 6], [7, 8]]) -> [[19, 22], [43, 50]]
-        """
-        pass
+    def es_simetrica(self, M):
+        return M == self.transpuesta(M)
 
-    def multiplicar_escalar(self, matriz, escalar):
-        """
-        Multiplica cada elemento de la matriz por un escalar.
+    def traza(self, M):
+        if not M or len(M) != len(M[0]):
+            raise ValueError("La matriz debe ser cuadrada")
+        return sum(M[i][i] for i in range(len(M)))
 
-        Args:
-            matriz (list): Matriz (lista de listas)
-            escalar (number): Valor escalar por el que se multiplica
+    def determinante_2x2(self, M):
+        if len(M) != 2 or len(M[0]) != 2:
+            raise ValueError("La matriz debe ser 2x2")
+        return M[0][0]*M[1][1] - M[0][1]*M[1][0]
 
-        Returns:
-            list: Matriz con cada elemento multiplicado por el escalar
-
-        Ejemplo:
-            multiplicar_escalar([[1, 2], [3, 4]], 3) -> [[3, 6], [9, 12]]
-        """
-        pass
-
-    def transpuesta(self, matriz):
-        """
-        Calcula la transpuesta de una matriz (intercambia filas por columnas).
-
-        Args:
-            matriz (list): Matriz (lista de listas)
-
-        Returns:
-            list: Matriz transpuesta
-
-        Ejemplo:
-            transpuesta([[1, 2, 3], [4, 5, 6]]) -> [[1, 4], [2, 5], [3, 6]]
-        """
-        pass
-
-    def es_cuadrada(self, matriz):
-        """
-        Verifica si una matriz es cuadrada (mismo número de filas y columnas).
-
-        Args:
-            matriz (list): Matriz (lista de listas)
-
-        Returns:
-            bool: True si la matriz es cuadrada, False en caso contrario
-
-        Ejemplo:
-            es_cuadrada([[1, 2], [3, 4]]) -> True
-            es_cuadrada([[1, 2, 3], [4, 5, 6]]) -> False
-        """
-        pass
-
-    def es_simetrica(self, matriz):
-        """
-        Verifica si una matriz es simétrica (igual a su transpuesta).
-        Solo aplica a matrices cuadradas.
-
-        Args:
-            matriz (list): Matriz cuadrada (lista de listas)
-
-        Returns:
-            bool: True si la matriz es simétrica, False en caso contrario
-
-        Ejemplo:
-            es_simetrica([[1, 2, 3], [2, 5, 6], [3, 6, 9]]) -> True
-            es_simetrica([[1, 2], [3, 4]]) -> False
-        """
-        pass
-
-    def traza(self, matriz):
-        """
-        Calcula la traza de una matriz cuadrada (suma de los elementos de la diagonal principal).
-
-        Args:
-            matriz (list): Matriz cuadrada (lista de listas)
-
-        Returns:
-            number: La suma de los elementos de la diagonal principal
-
-        Raises:
-            ValueError: Si la matriz no es cuadrada
-
-        Ejemplo:
-            traza([[1, 2], [3, 4]]) -> 5
-            traza([[1, 0, 0], [0, 5, 0], [0, 0, 9]]) -> 15
-        """
-        pass
-
-    def determinante_2x2(self, matriz):
-        """
-        Calcula el determinante de una matriz 2x2.
-        det([[a, b], [c, d]]) = a*d - b*c
-
-        Args:
-            matriz (list): Matriz 2x2 (lista de listas)
-
-        Returns:
-            number: El determinante de la matriz
-
-        Raises:
-            ValueError: Si la matriz no es 2x2
-
-        Ejemplo:
-            determinante_2x2([[3, 8], [4, 6]]) -> -14
-            determinante_2x2([[1, 2], [3, 4]]) -> -2
-        """
-        pass
-
-    def determinante_3x3(self, matriz):
-        """
-        Calcula el determinante de una matriz 3x3 usando la regla de Sarrus.
-
-        Args:
-            matriz (list): Matriz 3x3 (lista de listas)
-
-        Returns:
-            number: El determinante de la matriz
-
-        Raises:
-            ValueError: Si la matriz no es 3x3
-
-        Ejemplo:
-            determinante_3x3([[1, 2, 3], [4, 5, 6], [7, 8, 9]]) -> 0
-            determinante_3x3([[1, 0, 0], [0, 2, 0], [0, 0, 3]]) -> 6
-        """
-        pass
+    def determinante_3x3(self, M):
+        if len(M) != 3 or len(M[0]) != 3:
+            raise ValueError("La matriz debe ser 3x3")
+        a = M[0]
+        return (a[0]*(M[1][1]*M[2][2] - M[1][2]*M[2][1])
+               -a[1]*(M[1][0]*M[2][2] - M[1][2]*M[2][0])
+               +a[2]*(M[1][0]*M[2][1] - M[1][1]*M[2][0]))
 
     def identidad(self, n):
-        """
-        Genera una matriz identidad de tamaño n x n.
-        La diagonal principal tiene 1s y el resto 0s.
+        return [[1 if i == j else 0 for j in range(n)] for i in range(n)]
 
-        Args:
-            n (int): Tamaño de la matriz identidad
+    def diagonal(self, M):
+        if not M or len(M) != len(M[0]):
+            raise ValueError("La matriz debe ser cuadrada")
+        return [M[i][i] for i in range(len(M))]
 
-        Returns:
-            list: Matriz identidad n x n
+    def es_diagonal(self, M):
+        n = len(M)
+        for i in range(n):
+            for j in range(len(M[0])):
+                if i != j and M[i][j] != 0:
+                    return False
+        return True
 
-        Ejemplo:
-            identidad(2) -> [[1, 0], [0, 1]]
-            identidad(3) -> [[1, 0, 0], [0, 1, 0], [0, 0, 1]]
-        """
-        pass
+    def rotar_90(self, M):
+        if not M:
+            return []
+        return [[M[len(M)-1-j][i] for j in range(len(M))] for i in range(len(M[0]))]
 
-    def diagonal(self, matriz):
-        """
-        Extrae los elementos de la diagonal principal de una matriz cuadrada.
-
-        Args:
-            matriz (list): Matriz cuadrada (lista de listas)
-
-        Returns:
-            list: Lista con los elementos de la diagonal principal
-
-        Raises:
-            ValueError: Si la matriz no es cuadrada
-
-        Ejemplo:
-            diagonal([[1, 2, 3], [4, 5, 6], [7, 8, 9]]) -> [1, 5, 9]
-            diagonal([[3, 0], [0, 7]]) -> [3, 7]
-        """
-        pass
-
-    def es_diagonal(self, matriz):
-        """
-        Verifica si una matriz cuadrada es diagonal
-        (todos los elementos fuera de la diagonal principal son cero).
-
-        Args:
-            matriz (list): Matriz cuadrada (lista de listas)
-
-        Returns:
-            bool: True si la matriz es diagonal, False en caso contrario
-
-        Ejemplo:
-            es_diagonal([[3, 0], [0, 7]]) -> True
-            es_diagonal([[1, 2], [0, 4]]) -> False
-        """
-        pass
-
-    def rotar_90(self, matriz):
-        """
-        Rota una matriz 90 grados en sentido horario.
-
-        Args:
-            matriz (list): Matriz (lista de listas)
-
-        Returns:
-            list: Matriz rotada 90 grados en sentido horario
-
-        Ejemplo:
-            rotar_90([[1, 2], [3, 4]]) -> [[3, 1], [4, 2]]
-            rotar_90([[1, 2, 3], [4, 5, 6], [7, 8, 9]]) -> [[7, 4, 1], [8, 5, 2], [9, 6, 3]]
-        """
-        pass
-
-    def buscar_en_matriz(self, matriz, valor):
-        """
-        Busca un valor en la matriz y retorna todas las posiciones donde se encuentra.
-
-        Args:
-            matriz (list): Matriz (lista de listas)
-            valor: Valor a buscar en la matriz
-
-        Returns:
-            list: Lista de tuplas (fila, columna) con las posiciones del valor.
-                  Retorna lista vacía si no se encuentra.
-
-        Ejemplo:
-            buscar_en_matriz([[1, 2, 3], [4, 2, 6], [7, 8, 2]], 2) -> [(0, 1), (1, 1), (2, 2)]
-            buscar_en_matriz([[1, 2], [3, 4]], 9) -> []
-        """
-        pass
+    def buscar_en_matriz(self, M, valor):
+        result = []
+        for i, fila in enumerate(M):
+            for j, v in enumerate(fila):
+                if v == valor:
+                    result.append((i, j))
+        return result
